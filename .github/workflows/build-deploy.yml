@@ -4,7 +4,8 @@ on: [push]
 
 env:
   NETCORE_VERSION: '3.1.x'
-
+  AZURE_WEBAPP_PACKAGE_PATH: './published'
+  
 jobs:
   build:
     name: Build and Deploy
@@ -21,4 +22,7 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c Release
+
+    - name: Publish
+      run: dotnet publish --no-build -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
